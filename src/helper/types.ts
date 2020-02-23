@@ -2,21 +2,27 @@ import joi from '@hapi/joi';
 import BigNumber from 'bignumber.js';
 export enum ST {
   LAMBDA_ENV = 'LAMBDA_ENV',
-  SERVER_SEED_HASH = 'SERVER_SEED_HASH',
-  SERVER_SEED = 'SERVER_SEED',
+  /**
+   * @description
+   * any kind of string
+   */
+  CLIENT_MNEMONICS = 'CLIENT_MNEMONICS',
+
+  CACHE_KEY = 'CACHE_KEY',
 }
 
 export enum NT {
   MULTIPLIER = 'MULTIPLIER',
   DAMAGE = 'DAMAGE',
+  ODDS = 'ODDS',
 }
 
 export type PaginationQuery<T = unknown> = T & { before?: Date, limit?: number };
 export type STK = (keyof typeof ST);
 export type NTK = (keyof typeof NT);
 export type PhantomString<T extends ST> = string & { '__@phantomId': T, '__@phantomType': 'PhantomString' };
-export type PhantomNumber<T extends NT> = number & { '__@phantomId': T, '__@phantomType': 'PHantomNumber' };
-type NumberLike<T extends NT> = PhantomBigNumber<T> | PhantomNumber<T>;
+export type PhantomNumber<T extends NT> = number & { '__@phantomId': T, '__@phantomType': 'PhantomNumber' };
+export type NumberLike<T extends NT> = PhantomBigNumber<T> | PhantomNumber<T>;
 
 export interface PhantomBigNumber<T extends NT> extends BigNumber {
   plus(n: NumberLike<T>): PhantomBigNumber<T>;

@@ -3,6 +3,16 @@ import { ParamsMismatchSchema } from './errors';
 import { Joy } from './joy';
 import { NR } from './joy/base';
 
+export namespace TIMESECOND {
+  export enum ONE {
+    SECOND = 1,
+    MINUTE = 60,
+    HOUR = 3600,
+    DAY = 86400,
+    WEEK = 604800,
+  }
+}
+
 export async function parseBody<T>(thing: undefined | string | T, schema: Joy.SchemaOf<T>): Promise<NR<T>> {
   if (!thing) { throw new ParamsMismatchSchema('expected a string, got undefined instead'); }
   const parsed: T = (typeof thing === 'string') ? JSON.parse(thing) : thing;
@@ -10,19 +20,8 @@ export async function parseBody<T>(thing: undefined | string | T, schema: Joy.Sc
   return validated.value;
 }
 
-interface A {
-  hello: string;
-  world: {
-    foo: string;
-    bar: number;
-  };
+export enum COMPARE {
+  EQ = 0,
+  GT = 1,
+  LT = -1,
 }
-
-// const a: A = {} as any;
-// parseBody<A>(a, Joy.object<A>().keys({
-//   hello: Joy.string().required(),
-//   world: Joy.object<A['world']>().keys({
-//     bar: Joy.number().optional().default,
-//     foo: Joy.string().required(),
-//   }).required(),
-// }).required());
