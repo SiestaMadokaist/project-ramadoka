@@ -13,5 +13,5 @@ const SRs: GachaResult[] = [ ...new Array(27) ].map((i) => ({
 }));
 
 export const StoryGacha = new GachaStore({
-  store: [...SSRs, ...SRs]
+  store: [...SSRs, ...SRs],
 });
