@@ -2,11 +2,14 @@ import { GachaStore, GachaResult } from './store';
 import { Memoize } from '@cryptoket/ts-memoize';
 import { PhantomString, ST } from '../../../helper/types';
 import { HexString, HT, Hexadecimal, Hex } from '../../../modules/hashing';
-import { GachaRNG, GachaFactory } from './generator';
+// import { GachaRNG, GachaFactory } from './generator';
 import { INSTANCE } from '../../../initial/instances';
+import { GachaInit } from './generator';
+import { Gachache } from './cache';
 
 export interface IGachaLoader {
   store: GachaStore;
+  cache: Gachache;
   mnemonics: Array<PhantomString<ST.CLIENT_MNEMONICS>>;
   cacheKey: HexString<HT.CACHE_KEY>;
 }
@@ -14,7 +17,7 @@ export interface IGachaLoader {
 export class GachaLoader {
 
   __memo__: {
-    gachas?: Promise<GachaRNG[]>;
+    gachas?: Promise<GachaInit[]>;
     clientMnemonics?: Promise<Array<PhantomString<ST.CLIENT_MNEMONICS>>>;
     serverSeeds?: Promise<Array<HexString<HT.SERVER_SEED>>>;
     serverHashedSeeds?: Promise<Array<Hexadecimal<HT.SERVER_HASHED_SEED>>>
@@ -30,9 +33,13 @@ export class GachaLoader {
     return this.props.cacheKey;
   }
 
-  private async gachas(): Promise<GachaRNG[]> {
+  cache(): Gachache {
+    return this.props.cache;
+  }
+
+  private async gachas(): Promise<GachaInit[]> {
     return Memoize(this, 'gachas', () => {
-      return GachaFactory.loadAndLock(this.cacheKey());
+      return this.cache().loadAndLock(this.cacheKey());
     });
   }
 
@@ -52,13 +59,18 @@ export class GachaLoader {
     });
   }
 
-  async getResult(): Promise<GachaResult[]> {
+  async rngHashes(): Promise<Array<Hexadecimal<HT.RNG_HASH>>> {
     const gachas = await this.gachas();
     const clientMnemonics = await this.clientMnemonics();
     const result = gachas
-      .map((gacha, i) => gacha.combine(clientMnemonics[i]))
-      .map((rngHash) => this.store().placement(rngHash));
+      .map((gacha, i) => gacha.combine(clientMnemonics[i]));
     return result;
+  }
+
+  async getResult(): Promise<GachaResult[]> {
+    const hashes = await this.rngHashes();
+    return hashes.map((rngHash) => this.store().placement(rngHash));
+    // return result;
   }
 
 }

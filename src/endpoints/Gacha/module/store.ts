@@ -3,6 +3,8 @@ import { Memoize } from '@cryptoket/ts-memoize';
 import BigNumber from 'bignumber.js';
 import { Hexadecimal, HT, Hex } from '../../../modules/hashing';
 import { Joy } from '../../../helper/joy';
+import { COMPARE } from '../../../helper/utility';
+import { logger } from '../../../helper/logger';
 
 export enum RARITY {
   SSR = 'SSR',
@@ -50,9 +52,10 @@ export class GachaStore {
       const incr = NUMBER.ONE<NT.ODDS>().multipliedBy(gr.odds).dividedBy(accumulativeOdds);
       currentScore = currentScore.plus(incr);
       const currentScoreHex = Hex.fromNumber<HT.RNG_HASH>(currentScore);
-      if (rngScoreHex.lt(currentScoreHex)) { return gr; }
+      if (rngScoreHex.compare(currentScoreHex) === COMPARE.LT) { return gr; }
+      if (rngScoreHex.compare(currentScoreHex) === COMPARE.EQ) { return gr; }
     }
-    return this.store()[this.store().length];
+    throw new Error(rngScoreHex.toString('hex'));
   }
 
   private accumulativeOdds(): PhantomBigNumber<NT.ODDS> {

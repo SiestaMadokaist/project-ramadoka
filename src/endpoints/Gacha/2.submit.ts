@@ -2,10 +2,11 @@ import { PostEndpoint, PhantomString, ST, PhantomNumber } from '../../helper/typ
 import { PostHandler } from '../../helper/server';
 import { Joy } from '../../helper/joy';
 import { HT, HexString, Hex } from '../../modules/hashing';
-import { GachaFactory } from './module/generator';
 import { GachaLoader } from './module/loader';
 import { StoryGacha } from './store';
 import { GachaResult } from './module/store';
+import { Gachache } from './module/cache';
+import { INSTANCE } from '../../initial/instances';
 // import { JoiGeneric, joiGeneric, Joi } from '../../helper/utility';
 
 /**
@@ -28,11 +29,13 @@ export namespace GachaSubmit {
 
   export const Schema = Joy.object<Interface['body']>().keys({
     cacheKey: Joy.string().required(),
-    mnemonics: Joy.array<PhantomString<ST.CLIENT_MNEMONICS>>().items(Joy.string().optional()).optional().default([]),
+    mnemonics: Joy.array<Array<PhantomString<ST.CLIENT_MNEMONICS>>>().items(Joy.string().optional()).optional().default([]),
   }).required();
 
   export const Handler: PostHandler<Interface> = async (req) => {
+    const cache = new Gachache(await INSTANCE.redisProxy());
     const loader = new GachaLoader({
+      cache,
       cacheKey: req.body.cacheKey,
       mnemonics: req.body.mnemonics,
       store: StoryGacha,

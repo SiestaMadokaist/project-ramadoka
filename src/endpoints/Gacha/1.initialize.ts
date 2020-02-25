@@ -3,10 +3,10 @@ import { PostHandler } from '../../helper/server';
 import { Joy } from '../../helper/joy';
 import sha256 from 'sha256';
 import uuid from 'uuid';
-import { Hexadecimal, HT, HexString } from '../../modules/hashing';
-import { GachaFactory } from './module/generator';
-// import { JoiGeneric, joiGeneric, Joi } from '../../helper/utility';
-
+import { Hexadecimal, HT, HexString, Hex } from '../../modules/hashing';
+import { GachaInit } from './module/generator';
+import { Gachache } from './module/cache';
+import { INSTANCE } from '../../initial/instances';
 /**
  * @description
  * 1st step of initializing gacha
@@ -29,7 +29,9 @@ export namespace GachaInitialize {
   }).required();
 
   export const Handler: PostHandler<Interface> = async (req) => {
-    const gachas = await GachaFactory.generateNew(req.body.n);
+    const cache = new Gachache(await INSTANCE.redisProxy());
+    const cacheKey = Hex.uid<HT.CACHE_KEY>();
+    const gachas = await GachaInit.generateNew(cache, cacheKey, req.body.n);
     const hashedSeeds = gachas.map((g) => g.hashedSeed());
     return { hashedSeeds };
   };

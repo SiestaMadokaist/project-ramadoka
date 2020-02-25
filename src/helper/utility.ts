@@ -25,3 +25,8 @@ export enum COMPARE {
   GT = 1,
   LT = -1,
 }
+
+export function assertNonNull<T>(item: null | undefined | T, message: string): asserts item is NonNullable<T> {
+  if (item === null) { throw new Error(message); }
+  if (item === undefined) { throw new Error(message); }
+}

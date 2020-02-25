@@ -7,4 +7,4 @@ coverage/
 # Serverless directories
 .serverless
 .env.sh
-env/**
+env/**.nyc_output/

@@ -29,21 +29,31 @@ export class Hexadecimal<T extends HT> extends Buffer {
     return sha256.x2(uuid.v4()) as HexString<T>;
   }
 
-  toString!: (h: 'hex') => HexString<T>;
+  static fromString<T extends HT>(s: string, encoding?: 'hex'): Hexadecimal<T> {
+    const proto = Buffer.from(s, encoding);
+    (proto as any).prototype = this.prototype;
+    return proto as Hexadecimal<T>;
+    // return {
+    //   __proto__: proto,
+    //   ...(this.prototype),
+    // } as any;
+  }
+
+  toString!: (h?: 'hex') => HexString<T>;
 
   static hash<T extends HT>(s: string): Hexadecimal<T> {
-    return Buffer.from(sha256.x2(s)) as Hexadecimal<T>;
+    return Hexadecimal.fromString(sha256.x2(s));
   }
 
   static hex<T extends HT>(s: HexString<HT>): Hexadecimal<T> {
-    return Buffer.from(s, 'hex') as Hexadecimal<T>;
+    return Hexadecimal.fromString(s, 'hex');
   }
 
   static FF: BigNumber = new BigNumber(256);
   static fromNumber<T extends HT>(n: NumberLike<NT>): Hexadecimal<T> {
     const size = 32;
     const { FF } = Hexadecimal;
-    let calcs = FF.pow(size).multipliedBy(n);
+    let calcs = FF.pow(size).multipliedBy(n).minus(1);
     const result = Hexadecimal.alloc(size);
     for (let i = 0; i < size; i++) {
       const x = i + 1;
@@ -57,28 +67,28 @@ export class Hexadecimal<T extends HT> extends Buffer {
 
   static getRNG(serverSeed: Hexadecimal<HT.SERVER_SEED>, clientHash: Hexadecimal<HT.CLIENT_SEED>): Hexadecimal<HT.RNG_HASH> {
     const result = sha256.x2(Buffer.concat([serverSeed as Buffer, clientHash]));
-    return Buffer.from(result, 'hex') as Hexadecimal<HT.RNG_HASH>;
+    return Hexadecimal.fromString(result, 'hex');
   }
 
-  lt(other: Hexadecimal<T>): boolean {
-    return this.compare(other as Buffer) === COMPARE.LT;
-  }
+  // lt(other: Hexadecimal<T>): boolean {
+  //   return this.compare(other as Buffer) === COMPARE.LT;
+  // }
 
-  gt(other: Hexadecimal<T>): boolean {
-    return this.compare(other as Buffer) === COMPARE.GT;
-  }
+  // gt(other: Hexadecimal<T>): boolean {
+  //   return this.compare(other as Buffer) === COMPARE.GT;
+  // }
 
-  eq(other: Hexadecimal<T>): boolean {
-    return this.compare(other as Buffer) === COMPARE.EQ;
-  }
+  // eq(other: Hexadecimal<T>): boolean {
+  //   return this.compare(other as Buffer) === COMPARE.EQ;
+  // }
 
-  lte(other: Hexadecimal<T>): boolean {
-    return this.lt(other) || this.eq(other);
-  }
+  // lte(other: Hexadecimal<T>): boolean {
+  //   return this.lt(other) || this.eq(other);
+  // }
 
-  gte(other: Hexadecimal<T>): boolean {
-    return this.gt(other) || this.eq(other);
-  }
+  // gte(other: Hexadecimal<T>): boolean {
+  //   return this.gt(other) || this.eq(other);
+  // }
 
 }
 type STATICS = 'getRNG' | 'fromNumber' | 'hex' | 'hash' | 'uid';
