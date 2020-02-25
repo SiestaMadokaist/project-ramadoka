@@ -10,7 +10,7 @@ interface IA {
 }
 
 const schema = Joy.object<IA>().keys({
-  hello: Joy.array<string>().items(Joy.string().required()).required(),
+  hello: Joy.array<IA['hello']>().items(Joy.string().required()).optional(),
 }).required();
 
 // const a: Joy.OptionalitySetNumberSchema = {} as any;

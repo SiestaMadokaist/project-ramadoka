@@ -4,13 +4,13 @@ import { SchemaOf } from './object';
 import { Joy } from '.';
 
 type ChildOf<X> = X extends Array<infer U> ? U : never;
-export interface _ArraySchema<X> extends Joi.ArraySchema, SchemaInterface {
+export interface PlainArraySchema<X> extends Joi.ArraySchema, SchemaInterface {
   optional(): this & RequiredOrOptionalCalled<CLE.O>;
   required(): this & RequiredOrOptionalCalled<CLE.R>;
   items(schema: SchemaOf<X>): this & EntriesDefined<true>;
   validate(items: X[]): Joy.ValidationResult<X[]>;
 }
 
-export function __<X>(): _ArraySchema<X> {
-  return Joi.array() as _ArraySchema<X>;
+export function __<X extends unknown[]>(): PlainArraySchema<ChildOf<X>> {
+  return Joi.array() as PlainArraySchema<ChildOf<X>>;
 }

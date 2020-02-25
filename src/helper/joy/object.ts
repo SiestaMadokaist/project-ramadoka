@@ -11,14 +11,14 @@ X extends Array<infer U> ? Joy.ArraySchema<U> :
 X extends object ? Joy.ObjectSchema<X> :
 never;
 
-export interface _ObjectSchema<X> extends Joi.ObjectSchema, SchemaInterface {
+export interface PlainObjectSchema<X> extends Joi.ObjectSchema, SchemaInterface {
   optional(): this & RequiredOrOptionalCalled<CLE.O>;
   required(): this & RequiredOrOptionalCalled<CLE.R>;
   keys(schema: Required<{ [K in keyof NR<X>]: SchemaOf<NR<X>[K]> }>): this & EntriesDefined<true>;
   validate(n: X): Joy.ValidationResult<X>;
 }
 
-export function __<X>(strict: boolean = false): _ObjectSchema<X> {
-  if (strict) { return Joi.object() as _ObjectSchema<X>; }
-  return Joi.object().unknown() as _ObjectSchema<X>;
+export function __<X>(strict: boolean = false): PlainObjectSchema<X> {
+  if (strict) { return Joi.object() as PlainObjectSchema<X>; }
+  return Joi.object().unknown() as PlainObjectSchema<X>;
 }

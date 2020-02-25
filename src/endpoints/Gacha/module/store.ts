@@ -22,7 +22,7 @@ interface IGachaStore {
 }
 
 const schema: Joy.SchemaOf<IGachaStore> = Joy.object<IGachaStore>().keys({
-  store: Joy.array<GachaResult>().items(Joy.object<GachaResult>().keys({
+  store: Joy.array<GachaResult[]>().items(Joy.object<GachaResult>().keys({
     name: Joy.string().required(),
     odds: Joy.number().required().integer(),
     rarity: Joy.enums(RARITY).required(),
