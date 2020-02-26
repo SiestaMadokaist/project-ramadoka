@@ -1,3 +1,7 @@
+/**
+ * we dont really need unit test here tbh.
+ * it is all in typecheck.
+ */
 import { Joy } from '.';
 
 enum STATE {
