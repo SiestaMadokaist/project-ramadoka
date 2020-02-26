@@ -28,7 +28,6 @@
     "express": "^4.17.1",
     "hapi-joi-to-swagger": "^3.2.0",
     "sha256": "^0.2.0",
-    "typescript": "3.8.1-rc",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
@@ -47,8 +46,6 @@
     "jest": "^24.9.0",
     "madge": "^3.4.4",
     "md5": "^2.2.1",
-    "serverless-domain-manager": "^3.3.0",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^8.4.1"
+    "yaml": "^1.7.2"
   }
 }
