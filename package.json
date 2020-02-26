@@ -3,20 +3,6 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "MIT",
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
-    "testMatch": [
-      "**/**/*.spec.(ts|tsx)"
-    ],
-    "testEnvironment": "node"
-  },
   "scripts": {
     "build": "yarn dep && tsc",
     "test": "jest",
