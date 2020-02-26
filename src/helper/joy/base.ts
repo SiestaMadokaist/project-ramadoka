@@ -28,6 +28,9 @@ export type NR<X> = X extends number ? number :
 X extends string ? string :
 X extends boolean ? boolean :
 X extends Array<(infer U)> ? U[] :
-X extends object ? Required<{
-  [K in keyof X]: NR<X[K]>
+X extends Buffer ? Buffer :
+X extends Date ? Date :
+X extends Set<(infer S)> ? Set<S> :
+X extends Record<string, unknown> ? Required<{
+  [K in keyof X]: X[K];
 }> : never;

@@ -52,10 +52,10 @@ describe('GachaInit', () => {
     it('store the seeds', async () => {
       const rp = new RedisMock();
       const cache = new Gachache(rp);
-      const cacheKey = Hex.uid<HT.CACHE_KEY>();
-      const [ init ] = await GachaInit.generateNew(cache, cacheKey, 10);
-      const result = await rp.hgetall(cacheKey);
-      assertNonNull(result, `${cacheKey} has no cache`);
+      const rollId = Hex.uid<HT.ROLL_ID>();
+      const [ init ] = await GachaInit.generateNew(cache, rollId, 10);
+      const result = await rp.hgetall(rollId);
+      assertNonNull(result, `${rollId} has no cache`);
       for (const key of Object.keys(result as Record<string, string>)) {
         const seed = result[key];
         expect(Hexadecimal.hash(seed)).toEqual(Hexadecimal.hex(key as HexString<HT.SERVER_HASHED_SEED>));
@@ -84,7 +84,7 @@ describe('GachaInit', () => {
       },
     ]});
     const sizeCount = 1000;
-    const cacheKey = Hex.uid<HT.CACHE_KEY>();
+    const rollId = Hex.uid<HT.ROLL_ID>();
     const mnemonics: Array<PhantomString<ST.CLIENT_MNEMONICS>> = [ ...new Array(sizeCount)]
       .map(() => Hex.uid() as string as PhantomString<ST.CLIENT_MNEMONICS>);
 
@@ -99,18 +99,18 @@ describe('GachaInit', () => {
     });
 
     it('is idempotent', async () => {
-      await GachaInit.generateNew(cache, cacheKey, 1);
+      await GachaInit.generateNew(cache, rollId, 1);
       const clientMnemonics = ['test' as PhantomString<ST.CLIENT_MNEMONICS>];
-      const loader1 = new GachaLoader({ cache, cacheKey, mnemonics: clientMnemonics, store });
+      const loader1 = new GachaLoader({ cache, rollId, mnemonics: clientMnemonics, store });
       const [ firstHash ] = await loader1.rngHashes();
-      const loader2 = new GachaLoader({ cache, cacheKey, mnemonics: clientMnemonics, store });
+      const loader2 = new GachaLoader({ cache, rollId, mnemonics: clientMnemonics, store });
       const [ secondHash ] = await loader2.rngHashes();
       expect(firstHash).toEqual(secondHash);
     });
 
     it('has a reasonable ratio from random sampling', async () => {
-      await GachaInit.generateNew(cache, cacheKey, sizeCount);
-      const loader = new GachaLoader({ cache, cacheKey, mnemonics, store });
+      await GachaInit.generateNew(cache, rollId, sizeCount);
+      const loader = new GachaLoader({ cache, rollId, mnemonics, store });
       const result = await loader.getResult();
       result.forEach((x) => { expect(x.name).toMatch(/^(?:SR)|(?:SSR)|(?:R)$/); });
       const ssr = result.filter((x) => x.rarity === RARITY.SSR).length;

@@ -30,8 +30,8 @@ export namespace GachaInitialize {
 
   export const Handler: PostHandler<Interface> = async (req) => {
     const cache = new Gachache(await INSTANCE.redisProxy());
-    const cacheKey = Hex.uid<HT.CACHE_KEY>();
-    const gachas = await GachaInit.generateNew(cache, cacheKey, req.body.n);
+    const rollId = Hex.uid<HT.ROLL_ID>();
+    const gachas = await GachaInit.generateNew(cache, rollId, req.body.n);
     const hashedSeeds = gachas.map((g) => g.hashedSeed());
     return { hashedSeeds };
   };

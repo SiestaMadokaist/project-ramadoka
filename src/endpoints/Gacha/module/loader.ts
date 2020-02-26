@@ -11,7 +11,7 @@ export interface IGachaLoader {
   store: GachaStore;
   cache: Gachache;
   mnemonics: Array<PhantomString<ST.CLIENT_MNEMONICS>>;
-  cacheKey: HexString<HT.CACHE_KEY>;
+  rollId: HexString<HT.ROLL_ID>;
 }
 
 export class GachaLoader {
@@ -29,8 +29,8 @@ export class GachaLoader {
     return this.props.store;
   }
 
-  cacheKey(): HexString<HT.CACHE_KEY> {
-    return this.props.cacheKey;
+  rollId(): HexString<HT.ROLL_ID> {
+    return this.props.rollId;
   }
 
   cache(): Gachache {
@@ -39,7 +39,7 @@ export class GachaLoader {
 
   private async gachas(): Promise<GachaInit[]> {
     return Memoize(this, 'gachas', () => {
-      return this.cache().loadAndLock(this.cacheKey());
+      return this.cache().loadAndLock(this.rollId());
     });
   }
 

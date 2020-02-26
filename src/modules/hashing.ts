@@ -17,7 +17,7 @@ export enum HT {
   SERVER_SEED = 'SERVER_SEED',
   RNG_HASH = 'RNG_HASH',
 
-  CACHE_KEY = 'CACHE_KEY',
+  ROLL_ID = 'ROLL_ID',
 }
 
 export type HexString<T extends HT> = string & { '__@phantomType': T };

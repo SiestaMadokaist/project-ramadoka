@@ -5,8 +5,9 @@ import { __ as _date, PlainDateSchema  } from './date';
 import { __ as _boolean, PlainBooleanSchema  } from './boolean';
 import { __ as _array, PlainArraySchema  } from './array';
 import { __ as _enums, PlainEnumSchema  } from './enum';
+import { __ as _binary, PlainBinarySchema } from './buffer';
 import { StrictDefinitionSchema, StrictCompulsorySchema, CLE, NR } from './base';
-import Joi = require('@hapi/joi');
+import Joi from '@hapi/joi';
 
 export namespace Joy {
   export const string = _string;
@@ -16,6 +17,7 @@ export namespace Joy {
   export const object = _object;
   export const array = _array;
   export const enums = _enums;
+  export const binary = _binary;
   export type SchemaOf<X> = _SchemaOf<X>;
   export interface ValidationResult<X> extends Joi.ValidationResult {
     value: NR<X>;
@@ -29,5 +31,6 @@ export namespace Joy {
   export interface BooleanSchema extends Strict<PlainBooleanSchema> {}
   export interface ArraySchema<X> extends Strict<PlainArraySchema<X>> {}
   export interface EnumSchema<X> extends Strict<PlainEnumSchema<X>> {}
+  export interface BinarySchema extends Strict<PlainBinarySchema> {}
   // tslint:enable:no-empty-interface
 }

@@ -7,20 +7,16 @@ import type { Gachache } from './cache';
 
 interface IGachaInitProps {
   seed: HexString<HT.SERVER_SEED>;
-  cacheKey: HexString<HT.CACHE_KEY>;
+  rollId: HexString<HT.ROLL_ID>;
 }
 export class GachaInit {
 
-  static async generateNew(cache: Gachache, cacheKey: HexString<HT.CACHE_KEY>, n: number): Promise<GachaInit[]> {
+  static async generateNew(cache: Gachache, rollId: HexString<HT.ROLL_ID>, n: number): Promise<GachaInit[]> {
     const seeds = [ ...new Array(n)].map(() => Hex.uid<HT.SERVER_SEED>());
-    const gachas = seeds.map((seed) => new GachaInit({ seed, cacheKey }));
-    await cache.store(cacheKey, gachas);
+    const gachas = seeds.map((seed) => new GachaInit({ seed, rollId }));
+    await cache.store(rollId, gachas);
     return gachas;
   }
-
-  // cacheKey(): HexString<HT.CACHE_KEY> {
-  //   return this.#props.cacheKey;
-  // }
 
   __memo__: {
     serverHash?: HexString<HT.SERVER_HASHED_SEED>;

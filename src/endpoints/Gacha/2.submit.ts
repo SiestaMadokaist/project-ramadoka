@@ -19,7 +19,7 @@ export namespace GachaSubmit {
   export interface Interface extends PostEndpoint {
     path: 'gacha/submit';
     body: {
-      cacheKey: HexString<HT.CACHE_KEY>;
+      rollId: HexString<HT.ROLL_ID>;
       mnemonics: Array<PhantomString<ST.CLIENT_MNEMONICS>>;
     };
     response: {
@@ -28,16 +28,16 @@ export namespace GachaSubmit {
   }
 
   export const Schema = Joy.object<Interface['body']>().keys({
-    cacheKey: Joy.string().required(),
     mnemonics: Joy.array<Array<PhantomString<ST.CLIENT_MNEMONICS>>>().items(Joy.string().optional()).optional().default([]),
+    rollId: Joy.string().required(),
   }).required();
 
   export const Handler: PostHandler<Interface> = async (req) => {
     const cache = new Gachache(await INSTANCE.redisProxy());
     const loader = new GachaLoader({
       cache,
-      cacheKey: req.body.cacheKey,
       mnemonics: req.body.mnemonics,
+      rollId: req.body.rollId,
       store: StoryGacha,
     });
     return { result: await loader.getResult() };
