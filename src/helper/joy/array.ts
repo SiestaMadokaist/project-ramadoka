@@ -1,13 +1,13 @@
 import Joi from '@hapi/joi';
-import { RequiredOrOptionalCalled, CLE, SchemaInterface, EntriesDefined } from './base';
-import { SchemaOf } from './object';
 import { Joy } from '.';
+import { CLE, EntriesDefined, RequiredOrOptionalCalled, SchemaInterface } from './base';
+import { SchemaOf } from './object';
 
-type ChildOf<X> = X extends Array<infer U> ? U : never;
+type ChildOf<X> = X extends (infer U)[] ? U : never;
 export interface PlainArraySchema<X> extends Joi.ArraySchema, SchemaInterface {
+  items(schema: SchemaOf<X>): this & EntriesDefined<true>;
   optional(): this & RequiredOrOptionalCalled<CLE.O>;
   required(): this & RequiredOrOptionalCalled<CLE.R>;
-  items(schema: SchemaOf<X>): this & EntriesDefined<true>;
   validate(items: X[]): Joy.ValidationResult<X[]>;
 }
 

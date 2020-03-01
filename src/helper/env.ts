@@ -1,7 +1,7 @@
 export interface ENV {
   AWS_REGION: string;
-  LAMBDA_ENV: 'true' | 'false';
   DEFAULT_PORT: string;
+  LAMBDA_ENV: 'true' | 'false';
   // env variable goes here...
 }
 

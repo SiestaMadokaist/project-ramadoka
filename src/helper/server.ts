@@ -1,13 +1,13 @@
 import { Maybe } from '@cryptoket/ts-maybe';
 import express from 'express';
-import { BaseException } from './errors';
-import { logger } from './logger';
-import { PostEndpoint } from './phantom-types';
 import { IncomingHttpHeaders } from 'http';
 // import { JoiOf, parseBody } from './utility';
 import { env } from './env';
-import { LambdaContext, FinalizedLambdaAPIHandler, createLambdaAPI, LambdaEvent, LambdaHandler } from './lambda';
+import { BaseException } from './errors';
 import { Joy } from './joy';
+import { createLambdaAPI, FinalizedLambdaAPIHandler, LambdaContext, LambdaEvent, LambdaHandler } from './lambda';
+import { logger } from './logger';
+import { PostEndpoint } from './phantom-types';
 import { parseBody } from './utility';
 
 interface EndpointHeaders extends IncomingHttpHeaders {
@@ -25,8 +25,8 @@ interface ErrorObject {
 }
 
 interface SuccessObject<Data> {
-  error: false;
   data: Data;
+  error: false;
 }
 
 interface EndpointResponse<Data> extends express.Response {
@@ -48,6 +48,11 @@ export class WrappedExpress {
 
   application(): IWrappedExpress['application'] {
     return this.props.application;
+  }
+
+  createPostHandler<PE extends PostEndpoint = never>(path: PE['path'], handler: PostHandler<PE>, schema: Joy.SchemaOf<PE['body']>): FinalizedLambdaAPIHandler<PE> {
+    this.createExpressHandler(path, handler, schema);
+    return this.createLambdaHandler(path, handler, schema);
   }
 
   async listen(port: string | number): Promise<void> {
@@ -73,11 +78,6 @@ export class WrappedExpress {
       return { data: result, statusCode: 201 };
     };
     return createLambdaAPI(lambdaHandler, schema);
-  }
-
-  createPostHandler<PE extends PostEndpoint = never>(path: PE['path'], handler: PostHandler<PE>, schema: Joy.SchemaOf<PE['body']>): FinalizedLambdaAPIHandler<PE> {
-    this.createExpressHandler(path, handler, schema);
-    return this.createLambdaHandler(path, handler, schema);
   }
 
   private expressWrap<PE extends PostEndpoint>(code: number, handler: RequestHandler<PE['response']>, schema: Joy.SchemaOf<PE['body']>): RequestHandler<void> {

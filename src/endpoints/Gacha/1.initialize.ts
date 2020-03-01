@@ -1,12 +1,12 @@
-import { PostEndpoint, PhantomString, ST, PhantomNumber } from '../../helper/phantom-types';
-import { PostHandler } from '../../helper/server';
-import { Joy } from '../../helper/joy';
 import sha256 from 'sha256';
 import uuid from 'uuid';
-import { Hexadecimal, HT, HexString, Hex } from '../../modules/hashing';
-import { GachaInit } from './module/generator';
-import { Gachache } from './module/cache';
+import { Joy } from '../../helper/joy';
+import { PhantomNumber, PhantomString, PostEndpoint, ST } from '../../helper/phantom-types';
+import { PostHandler } from '../../helper/server';
 import { INSTANCE } from '../../initial/instances';
+import { Hex, Hexadecimal, HexString, HT } from '../../modules/hashing';
+import { Gachache } from './module/cache';
+import { GachaInit } from './module/generator';
 /**
  * @description
  * 1st step of initializing gacha
@@ -15,12 +15,12 @@ import { INSTANCE } from '../../initial/instances';
 export namespace GachaInitialize {
 
   export interface Interface extends PostEndpoint {
-    path: 'gacha/initialize';
     body: {
       n: 1 | 10;
     };
+    path: 'gacha/initialize';
     response: {
-      hashedSeeds: Array<HexString<HT.SERVER_HASHED_SEED>>;
+      hashedSeeds: HexString<HT.SERVER_HASHED_SEED>[];
     };
   }
 

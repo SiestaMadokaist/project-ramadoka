@@ -1,13 +1,13 @@
-import { PhantomString, ST } from '../../../helper/phantom-types';
-import sha256 from 'sha256';
 import { Memoize } from '@cryptoket/ts-memoize';
-import { Hexadecimal, HT, HexString, Hex } from '../../../modules/hashing';
+import sha256 from 'sha256';
+import { PhantomString, ST } from '../../../helper/phantom-types';
 import { TIMESECOND } from '../../../helper/utility';
+import { Hex, Hexadecimal, HexString, HT } from '../../../modules/hashing';
 import type { Gachache } from './cache';
 
 interface IGachaInitProps {
-  seed: HexString<HT.SERVER_SEED>;
   rollId: HexString<HT.ROLL_ID>;
+  seed: HexString<HT.SERVER_SEED>;
 }
 export class GachaInit {
 
@@ -17,17 +17,17 @@ export class GachaInit {
     await cache.store(rollId, gachas);
     return gachas;
   }
+  #props: IGachaInitProps;
 
   __memo__: {
     serverHash?: HexString<HT.SERVER_HASHED_SEED>;
   } = {};
-  #props: IGachaInitProps;
   constructor(props: IGachaInitProps) {
     this.#props = props;
   }
 
-  serverSeed(): HexString<HT.SERVER_SEED> {
-    return this.#props.seed;
+  combine(message: PhantomString<ST.CLIENT_MNEMONICS>): Hexadecimal<HT.RNG_HASH> {
+    return Hex.getRNG(Hex.hex(this.serverSeed()), Hex.hash(message));
   }
 
   hashedSeed(): HexString<HT.SERVER_HASHED_SEED> {
@@ -36,8 +36,8 @@ export class GachaInit {
     });
   }
 
-  combine(message: PhantomString<ST.CLIENT_MNEMONICS>): Hexadecimal<HT.RNG_HASH> {
-    return Hex.getRNG(Hex.hex(this.serverSeed()), Hex.hash(message));
+  serverSeed(): HexString<HT.SERVER_SEED> {
+    return this.#props.seed;
   }
 
 }

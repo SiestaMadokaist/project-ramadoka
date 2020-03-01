@@ -1,17 +1,17 @@
+import { Joy } from '../../helper/joy';
+import { logger } from '../../helper/logger';
 import { PostEndpoint } from '../../helper/phantom-types';
 import { PostHandler } from '../../helper/server';
-import { logger } from '../../helper/logger';
-import { Joy } from '../../helper/joy';
 // import { JoiGeneric, joiGeneric, Joi } from '../../helper/utility';
 
 namespace Ping {
 
   export interface Interface extends PostEndpoint {
-    path: 'ping';
     body: {
       ping: 'pong';
       pong?: 'ping';
     };
+    path: 'ping';
     response: {
       pong: 'ping';
     };

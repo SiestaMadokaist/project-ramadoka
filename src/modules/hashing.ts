@@ -1,9 +1,9 @@
+import BigNumber from 'bignumber.js';
 import sha256 from 'sha256';
 import * as uuid from 'uuid';
-import BigNumber from 'bignumber.js';
+import { PhantomBase } from '../helper/phantom-types/base';
 import { NT, NumberLike } from '../helper/phantom-types/number';
 import { COMPARE } from '../helper/utility';
-import { PhantomBase } from '../helper/phantom-types/base';
 export enum HT {
   SERVER_HASHED_SEED = 'SERVER_HASHED_SEED',
   /**
@@ -24,33 +24,6 @@ export enum HT {
 export type HexString<T extends HT> = PhantomBase<string, T, 'HexString'>;
 
 export class Hexadecimal<T extends HT> extends Buffer {
-  '__@phantomId': T;
-  '__@phantomType': 'PhantomHex';
-  static uid<T extends HT>(): HexString<T> {
-    return sha256.x2(uuid.v4()) as HexString<T>;
-  }
-
-  static fromString<T extends HT>(s: string, encoding?: 'hex'): Hexadecimal<T> {
-    const proto = Buffer.from(s, encoding);
-    (proto as any).prototype = this.prototype;
-    return proto as Hexadecimal<T>;
-    // return {
-    //   __proto__: proto,
-    //   ...(this.prototype),
-    // } as any;
-  }
-
-  toString!: (h?: 'hex') => HexString<T>;
-
-  static hash<T extends HT>(s: string): Hexadecimal<T> {
-    return Hexadecimal.fromString(sha256.x2(s));
-  }
-
-  static hex<T extends HT>(s: HexString<HT>): Hexadecimal<T> {
-    return Hexadecimal.fromString(s, 'hex');
-  }
-
-  static FF: BigNumber = new BigNumber(256);
   static fromNumber<T extends HT>(n: NumberLike<NT>): Hexadecimal<T> {
     const size = 32;
     const { FF } = Hexadecimal;
@@ -66,10 +39,37 @@ export class Hexadecimal<T extends HT> extends Buffer {
     return result as Hexadecimal<T>;
   }
 
+  static fromString<T extends HT>(s: string, encoding?: 'hex'): Hexadecimal<T> {
+    const proto = Buffer.from(s, encoding);
+    (proto as any).prototype = this.prototype;
+    return proto as Hexadecimal<T>;
+    // return {
+    //   __proto__: proto,
+    //   ...(this.prototype),
+    // } as any;
+  }
+
   static getRNG(serverSeed: Hexadecimal<HT.SERVER_SEED>, clientHash: Hexadecimal<HT.CLIENT_SEED>): Hexadecimal<HT.RNG_HASH> {
     const result = sha256.x2(Buffer.concat([serverSeed as Buffer, clientHash]));
     return Hexadecimal.fromString(result, 'hex');
   }
+
+  static hash<T extends HT>(s: string): Hexadecimal<T> {
+    return Hexadecimal.fromString(sha256.x2(s));
+  }
+
+  static hex<T extends HT>(s: HexString<HT>): Hexadecimal<T> {
+    return Hexadecimal.fromString(s, 'hex');
+  }
+  static uid<T extends HT>(): HexString<T> {
+    return sha256.x2(uuid.v4()) as HexString<T>;
+  }
+
+  static FF: BigNumber = new BigNumber(256);
+  '__@phantomId': T;
+  '__@phantomType': 'PhantomHex';
+
+  toString!: (h?: 'hex') => HexString<T>;
 
   // lt(other: Hexadecimal<T>): boolean {
   //   return this.compare(other as Buffer) === COMPARE.LT;

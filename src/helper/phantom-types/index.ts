@@ -5,8 +5,11 @@ export { PhantomNumber, NT } from './number';
 export { NUMBER } from './constant';
 
 export interface PostEndpoint {
+  headers: {
+    Authorization?: string;
+  };
+  body: unknown;
   method: 'post';
   path: string;
-  body: unknown;
   response: unknown;
 }

@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
-import { RequiredOrOptionalCalled, CLE, SchemaInterface, EntriesDefined } from './base';
 import { Joy } from '.';
+import { CLE, EntriesDefined, RequiredOrOptionalCalled, SchemaInterface } from './base';
 
 export interface PlainEnumSchema<X> extends Joi.StringSchema, SchemaInterface, EntriesDefined<true> {
   optional(): this & RequiredOrOptionalCalled<CLE.O>;

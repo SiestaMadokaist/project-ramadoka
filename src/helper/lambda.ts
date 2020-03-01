@@ -1,9 +1,9 @@
-import { logger } from './logger';
-import { PostEndpoint } from './phantom-types';
 // import { JoiOf, parseBody } from './utility';
 import { Maybe } from '@cryptoket/ts-maybe';
-import { parseBody } from './utility';
 import { Joy } from './joy';
+import { logger } from './logger';
+import { PostEndpoint } from './phantom-types';
+import { parseBody } from './utility';
 
 // interface LambdaResponse {
 //   data: string;
@@ -42,8 +42,8 @@ export interface LambdaResponse<PE extends PostEndpoint> {
 
 interface FinalizedResponse {
   data: string;
-  statusCode: number;
   headers: (typeof headers);
+  statusCode: number;
 }
 
 export type LambdaHandler<PE extends PostEndpoint> = (event: LambdaEvent<PE>, context?: LambdaContext) => Promise<LambdaResponse<PE>>;

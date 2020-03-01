@@ -1,9 +1,9 @@
-import mocha from 'mocha';
 import { expect } from 'chai';
-// import { ping } from './app';
-import { logger } from './helper/logger';
+import mocha from 'mocha';
 import Ping from './endpoints/Ping';
 import { LambdaResponse } from './helper/lambda';
+// import { ping } from './app';
+import { logger } from './helper/logger';
 
 // describe('lambda:ping', () => {
 //   it('return perfectly', async () => {

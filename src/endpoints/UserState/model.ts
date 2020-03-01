@@ -1,7 +1,7 @@
-import { PhantomNumber, NT } from '../../helper/phantom-types';
-import { ID, ModelConstructor, BaseModel } from '../../helper/phantom-types/ID';
-import { Sequelize, DataType, Model } from 'sequelize/types';
+import { DataType, Model, Sequelize } from 'sequelize/types';
+import { NT, PhantomNumber } from '../../helper/phantom-types';
 import { PhantomBase } from '../../helper/phantom-types/base';
+import { BaseModel, ID, ModelConstructor } from '../../helper/phantom-types/ID';
 
 /**
  * @description
@@ -18,10 +18,10 @@ export enum OWN_FLAGS {
 export type PhantomBinary<T extends OWN_FLAGS> = PhantomBase<Buffer, T, 'PhantomBinary'>;
 
 interface IUserState {
-  id: ID<UserState>;
-  userId: ID<User>;
-  nonce: number;
   characters: PhantomBinary<OWN_FLAGS.CHARACTERS>;
+  id: ID<UserState>;
+  nonce: number;
+  userId: ID<User>;
   weapons: PhantomBinary<OWN_FLAGS.WEAPONS>;
 }
 

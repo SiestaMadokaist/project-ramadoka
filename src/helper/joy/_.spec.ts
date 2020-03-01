@@ -16,16 +16,6 @@ interface MyInterface {
   bool: boolean;
   buffer: Buffer;
   date: Date;
-  obj2: {
-    foo: 'bar',
-  };
-  obj_arr: Array<{
-    x: {
-      y: {
-        z: number;
-      };
-    };
-  }>;
   obj: {
     obj: {
       obj: {
@@ -33,6 +23,16 @@ interface MyInterface {
       };
     };
   };
+  obj2: {
+    foo: 'bar',
+  };
+  obj_arr: {
+    x: {
+      y: {
+        z: number;
+      };
+    };
+  }[];
 }
 
 const mySchema: Joy.SchemaOf<MyInterface> = Joy.object<MyInterface>().keys({

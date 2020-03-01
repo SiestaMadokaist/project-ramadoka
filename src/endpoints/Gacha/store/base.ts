@@ -1,10 +1,10 @@
-import { PhantomBigNumber, NT, NUMBER, PhantomNumber } from '../../../helper/phantom-types';
 import { Memoize } from '@cryptoket/ts-memoize';
 import BigNumber from 'bignumber.js';
-import { Hexadecimal, HT, Hex } from '../../../modules/hashing';
 import { Joy } from '../../../helper/joy';
-import { COMPARE } from '../../../helper/utility';
 import { logger } from '../../../helper/logger';
+import { NT, NUMBER, PhantomBigNumber, PhantomNumber } from '../../../helper/phantom-types';
+import { COMPARE } from '../../../helper/utility';
+import { Hex, Hexadecimal, HT } from '../../../modules/hashing';
 
 export enum RARITY {
   SSR = 'SSR',
@@ -15,8 +15,8 @@ export enum RARITY {
 
 export interface GachaResult {
   name: string;
-  rarity: RARITY;
   odds: PhantomNumber<NT.ODDS>;
+  rarity: RARITY;
 }
 
 interface IGachaStore {
@@ -33,17 +33,13 @@ const schema: Joy.SchemaOf<IGachaStore> = Joy.object<IGachaStore>().keys({
 
 export class GachaStore {
   private props: IGachaStore;
-  constructor(props: IGachaStore) {
-    this.props = schema.validate(props).value;
-  }
-
-  private store(): GachaResult[] {
-    return this.props.store;
-  }
 
   __memo__: {
     totalChance?: PhantomBigNumber<NT.ODDS>;
   } = {};
+  constructor(props: IGachaStore) {
+    this.props = schema.validate(props).value;
+  }
 
   placement(rngScoreHex: Hexadecimal<HT.RNG_HASH>): GachaResult {
     let currentScore = NUMBER.ZERO<NT.ODDS>();
@@ -66,5 +62,9 @@ export class GachaStore {
       }
       return total;
     });
+  }
+
+  private store(): GachaResult[] {
+    return this.props.store;
   }
 }

@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@cryptoket/redis-proxy": "^1.0.8",
-    "@cryptoket/ts-maybe": "^1.0.17",
+    "@cryptoket/ts-maybe": "1.0.21",
     "@cryptoket/ts-memoize": "^1.0.10",
     "@cryptoket/ts-promise-helper": "^1.0.25",
     "@hapi/joi": "^17.1.0",
@@ -42,11 +42,7 @@
     "@types/redis": "^2.8.16",
     "@types/sha256": "^0.2.0",
     "@types/uuid": "^3.4.7",
-    "chai": "^4.2.0",
-    "jest": "^24.9.0",
-    "madge": "^3.4.4",
     "md5": "^2.2.1",
-    "sequelize": "^5.8.7",
     "yaml": "^1.7.2"
   }
 }

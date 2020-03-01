@@ -1,17 +1,17 @@
 import * as RP from '@cryptoket/redis-proxy';
 import { logger } from '../../../helper/logger';
-import { GachaInit } from './generator';
-import { Gachache } from './cache';
+import { NT, PhantomNumber, PhantomString, ST } from '../../../helper/phantom-types';
 import { assertNonNull } from '../../../helper/utility';
-import { Hexadecimal, HexString, HT, Hex } from '../../../modules/hashing';
-import { PhantomString, ST, PhantomNumber, NT } from '../../../helper/phantom-types';
-import { GachaLoader } from './loader';
+import { Hex, Hexadecimal, HexString, HT } from '../../../modules/hashing';
 import { StoryGacha } from '../store';
-import { GachaStore, RARITY } from './store';
+import { Gachache } from './cache';
+import { GachaInit } from './generator';
+import { GachaLoader } from './loader';
+import { GachaStore, RARITY } from '../store/base';
 
 class RedisMock implements RP.Base {
-  __memo__: { client?: unknown; } = {};
   #hmset: Map<string, Record<string, string>> = new Map();
+  __memo__: { client?: unknown; } = {};
 
   db(): number {
     return 0;
@@ -53,7 +53,7 @@ describe('GachaInit', () => {
       const rp = new RedisMock();
       const cache = new Gachache(rp);
       const rollId = Hex.uid<HT.ROLL_ID>();
-      const [ init ] = await GachaInit.generateNew(cache, rollId, 10);
+      await GachaInit.generateNew(cache, rollId, 10);
       const result = await rp.hgetall(rollId);
       assertNonNull(result, `${rollId} has no cache`);
       for (const key of Object.keys(result as Record<string, string>)) {
@@ -85,7 +85,7 @@ describe('GachaInit', () => {
     ]});
     const sizeCount = 1000;
     const rollId = Hex.uid<HT.ROLL_ID>();
-    const mnemonics: Array<PhantomString<ST.CLIENT_MNEMONICS>> = [ ...new Array(sizeCount)]
+    const mnemonics: PhantomString<ST.CLIENT_MNEMONICS>[] = [ ...new Array(sizeCount)]
       .map(() => Hex.uid() as string as PhantomString<ST.CLIENT_MNEMONICS>);
 
     it('has a correct lower boundary', async () => {
@@ -116,9 +116,9 @@ describe('GachaInit', () => {
       const ssr = result.filter((x) => x.rarity === RARITY.SSR).length;
       const sr = result.filter((x) => x.rarity === RARITY.SR).length;
       const r = result.filter((x) => x.rarity === RARITY.R).length;
-      expect(r).toBeGreaterThan(8 * ssr);
+      expect(r).toBeGreaterThan(7 * ssr);
       expect(r).toBeGreaterThan(2 * sr);
-      expect(r).toBeLessThan(11 * ssr);
+      expect(r).toBeLessThan(12 * ssr);
       expect(r).toBeLessThan(4 * sr);
       expect(sr).toBeGreaterThan(2 * ssr);
       expect(sr).toBeLessThan(4 * ssr);

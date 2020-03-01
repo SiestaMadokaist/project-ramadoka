@@ -1,13 +1,13 @@
-import { __ as _object, SchemaOf as _SchemaOf, PlainObjectSchema } from './object';
-import { __ as _string, PlainStringSchema } from './string';
-import { __ as _number, PlainNumberSchema  } from './number';
-import { __ as _date, PlainDateSchema  } from './date';
-import { __ as _boolean, PlainBooleanSchema  } from './boolean';
-import { __ as _array, PlainArraySchema  } from './array';
-import { __ as _enums, PlainEnumSchema  } from './enum';
-import { __ as _binary, PlainBinarySchema } from './buffer';
-import { StrictDefinitionSchema, StrictCompulsorySchema, CLE, NR } from './base';
 import Joi from '@hapi/joi';
+import { PlainArraySchema, __ as _array  } from './array';
+import { CLE, NR, StrictCompulsorySchema, StrictDefinitionSchema } from './base';
+import { PlainBooleanSchema, __ as _boolean  } from './boolean';
+import { PlainBinarySchema, __ as _binary } from './buffer';
+import { PlainDateSchema, __ as _date  } from './date';
+import { PlainEnumSchema, __ as _enums  } from './enum';
+import { PlainNumberSchema, __ as _number  } from './number';
+import { PlainObjectSchema, SchemaOf as _SchemaOf, __ as _object } from './object';
+import { PlainStringSchema, __ as _string } from './string';
 
 export namespace Joy {
   export const string = _string;

@@ -1,12 +1,12 @@
-import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { WrappedExpress } from './helper/server';
+import express from 'express';
+import { GachaInitialize } from './endpoints/Gacha/1.initialize';
+import { GachaSubmit } from './endpoints/Gacha/2.submit';
 import Ping from './endpoints/Ping';
 import { env } from './helper/env';
 import { logger } from './helper/logger';
-import { GachaInitialize } from './endpoints/Gacha/1.initialize';
-import { GachaSubmit } from './endpoints/Gacha/2.submit';
+import { WrappedExpress } from './helper/server';
 
 const _app = express();
 _app.use(bodyParser.json());
