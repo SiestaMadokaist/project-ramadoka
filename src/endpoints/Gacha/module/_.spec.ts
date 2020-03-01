@@ -4,7 +4,7 @@ import { GachaInit } from './generator';
 import { Gachache } from './cache';
 import { assertNonNull } from '../../../helper/utility';
 import { Hexadecimal, HexString, HT, Hex } from '../../../modules/hashing';
-import { PhantomString, ST, PhantomNumber, NT } from '../../../helper/types';
+import { PhantomString, ST, PhantomNumber, NT } from '../../../helper/phantom-types';
 import { GachaLoader } from './loader';
 import { StoryGacha } from '../store';
 import { GachaStore, RARITY } from './store';

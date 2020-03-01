@@ -2,7 +2,7 @@ import { Maybe } from '@cryptoket/ts-maybe';
 import express from 'express';
 import { BaseException } from './errors';
 import { logger } from './logger';
-import { PostEndpoint } from './types';
+import { PostEndpoint } from './phantom-types';
 import { IncomingHttpHeaders } from 'http';
 // import { JoiOf, parseBody } from './utility';
 import { env } from './env';

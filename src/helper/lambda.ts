@@ -1,5 +1,5 @@
 import { logger } from './logger';
-import { PostEndpoint } from './types';
+import { PostEndpoint } from './phantom-types';
 // import { JoiOf, parseBody } from './utility';
 import { Maybe } from '@cryptoket/ts-maybe';
 import { parseBody } from './utility';
@@ -73,18 +73,3 @@ export function createLambdaAPI<PE extends PostEndpoint>(handler: LambdaHandler<
     });
   };
 }
-// export type LambdaCallback<E, R extends LambdaResponse = LambdaResponse> = (event: E, context?: LambdaContext) => Promise<R>;
-
-// export function wrap<E, R extends LambdaResponse = LambdaResponse>(cb: (event: E, context?: LambdaContext) => Promise<R>): (event: E, context: LambdaContext) => Promise<LambdaResponse> {
-//   return async (event: E, context: LambdaContext) => {
-//     await initialize();
-//     return cb(event, context).catch((error) => {
-//       logger.e(error);
-//       return {
-//         data: JSON.stringify({ message: error.message, name: error.name }),
-//         headers,
-//         statusCode: 500,
-//       };
-//     });
-//   };
-// }

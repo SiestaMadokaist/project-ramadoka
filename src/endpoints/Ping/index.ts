@@ -1,4 +1,4 @@
-import { PostEndpoint } from '../../helper/types';
+import { PostEndpoint } from '../../helper/phantom-types';
 import { PostHandler } from '../../helper/server';
 import { logger } from '../../helper/logger';
 import { Joy } from '../../helper/joy';

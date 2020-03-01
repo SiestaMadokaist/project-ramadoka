@@ -8,5 +8,4 @@ coverage/
 .serverless
 .env.sh
 env/**.nyc_output/
-a.vscode/
 .vscode

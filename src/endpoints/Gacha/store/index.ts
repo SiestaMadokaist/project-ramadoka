@@ -1,5 +1,5 @@
 import { GachaStore, GachaResult, RARITY } from '../module/store';
-import { PhantomNumber, NT } from '../../../helper/types';
+import { PhantomNumber, NT } from '../../../helper/phantom-types';
 
 const SSRs: GachaResult[] = [ ...new Array(3) ].map((_, i) => ({
   name: `SSR #${i}`,

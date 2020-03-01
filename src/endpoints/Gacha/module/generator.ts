@@ -1,4 +1,4 @@
-import { PhantomString, ST } from '../../../helper/types';
+import { PhantomString, ST } from '../../../helper/phantom-types';
 import sha256 from 'sha256';
 import { Memoize } from '@cryptoket/ts-memoize';
 import { Hexadecimal, HT, HexString, Hex } from '../../../modules/hashing';

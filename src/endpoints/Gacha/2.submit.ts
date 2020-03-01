@@ -1,4 +1,4 @@
-import { PostEndpoint, PhantomString, ST, PhantomNumber } from '../../helper/types';
+import { PostEndpoint, PhantomString, ST, PhantomNumber } from '../../helper/phantom-types';
 import { PostHandler } from '../../helper/server';
 import { Joy } from '../../helper/joy';
 import { HT, HexString, Hex } from '../../modules/hashing';

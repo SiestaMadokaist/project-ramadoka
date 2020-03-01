@@ -1,8 +1,9 @@
 import sha256 from 'sha256';
 import * as uuid from 'uuid';
 import BigNumber from 'bignumber.js';
-import { NUMBER, ST, NT, NumberLike } from '../helper/types';
+import { NT, NumberLike } from '../helper/phantom-types/number';
 import { COMPARE } from '../helper/utility';
+import { PhantomBase } from '../helper/phantom-types/base';
 export enum HT {
   SERVER_HASHED_SEED = 'SERVER_HASHED_SEED',
   /**
@@ -20,7 +21,7 @@ export enum HT {
   ROLL_ID = 'ROLL_ID',
 }
 
-export type HexString<T extends HT> = string & { '__@phantomType': T };
+export type HexString<T extends HT> = PhantomBase<string, T, 'HexString'>;
 
 export class Hexadecimal<T extends HT> extends Buffer {
   '__@phantomId': T;

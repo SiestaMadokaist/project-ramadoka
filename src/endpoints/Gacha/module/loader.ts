@@ -1,6 +1,6 @@
 import { GachaStore, GachaResult } from './store';
 import { Memoize } from '@cryptoket/ts-memoize';
-import { PhantomString, ST } from '../../../helper/types';
+import { PhantomString, ST } from '../../../helper/phantom-types';
 import { HexString, HT, Hexadecimal, Hex } from '../../../modules/hashing';
 // import { GachaRNG, GachaFactory } from './generator';
 import { INSTANCE } from '../../../initial/instances';

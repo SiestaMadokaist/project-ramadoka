@@ -1,8 +1,6 @@
-import { PhantomString, ST } from './types';
-
 export interface ENV {
   AWS_REGION: string;
-  LAMBDA_ENV: 'true' | PhantomString<ST.LAMBDA_ENV>;
+  LAMBDA_ENV: 'true' | 'false';
   DEFAULT_PORT: string;
   // env variable goes here...
 }

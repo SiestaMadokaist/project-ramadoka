@@ -1,4 +1,4 @@
-import { PhantomBigNumber, NT, NUMBER, PhantomNumber } from '../../../helper/types';
+import { PhantomBigNumber, NT, NUMBER, PhantomNumber } from '../../../helper/phantom-types';
 import { Memoize } from '@cryptoket/ts-memoize';
 import BigNumber from 'bignumber.js';
 import { Hexadecimal, HT, Hex } from '../../../modules/hashing';
