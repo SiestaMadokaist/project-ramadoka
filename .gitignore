@@ -9,3 +9,5 @@ coverage/
 .env.sh
 env/**.nyc_output/
 .vscode
+env/dev.sh
+env/prod.sh

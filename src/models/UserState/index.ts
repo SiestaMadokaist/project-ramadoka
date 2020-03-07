@@ -43,5 +43,5 @@ export namespace UserState {
   });
 
   type KeySchema = Pick<UserStateInterface.Schema, 'id' | 'nonce'>;
-  export const Table = dynamoose.model<UserStateInterface.Schema, KeySchema>('production-user_states', dbSchema);
+  export const Table = dynamoose.model<UserStateInterface.Schema, KeySchema>('production-user_state', dbSchema);
 }
