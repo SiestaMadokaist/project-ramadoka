@@ -1,5 +1,5 @@
 import { PhantomNumber, NT } from '../../helper/phantom-types/number';
-import { ID, Model, defineTable } from '../Base';
+import { ID, Model } from '../Base';
 import type { CharacterInterface } from '../Characters/interface';
 import { Joy } from '../../helper/joy';
 import { TimestampValue } from '../../helper/phantom-types/bignumber';
@@ -14,5 +14,6 @@ export namespace UserStateInterface {
     credit: PhantomNumber<'credit'>;
     createdAt: PhantomNumber<NT.TIMESTAMP_MS>;
     characters: Record<CharacterInterface.Schema['id'], CharacterInterface.Schema>;
+    updates: Partial<Omit<Schema, 'updates' | 'id' | 'createdAt' | 'nonce'>> & { memo: string; };
   }
 }

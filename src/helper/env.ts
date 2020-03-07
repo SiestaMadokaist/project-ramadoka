@@ -21,12 +21,11 @@ function initializeEnv(): ENV {
     AWS_REGION: 'ap-southeast-1',
     DEFAULT_PORT: '4000',
     LAMBDA_ENV: 'false',
-    NODE_ENV: 'development',
   };
   return {
     ...defaults,
     ...process.env,
-    ...getEnv(),
+    ...getEnv('NODE_ENV', 'LAMBDA_ENV'),
   };
 }
 

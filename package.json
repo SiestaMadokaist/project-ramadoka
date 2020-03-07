@@ -10,11 +10,8 @@
     "fix": "yarn lint -p tsconfig.json -c tslint.fix.json --fix",
     "circular": "madge --circular ./dist",
     "graph": "madge --image graph.png ./dist",
-    "_deploy": "rm -rf ./dist && yarn fix && tsc && serverless deploy",
     "dev": "node --inspect=5858 -r ts-node/register ./src/index.dev.ts",
-    "dev:watch": "nodemon",
-    "deploy": "yarn _deploy --config serverless/production.yml",
-    "devdeploy": "yarn _deploy --config serverless/development.yml"
+    "debug:ts": "DOTENV_CONFIG_PATH='./env/dev.sh' node -r ts-node/register -r dotenv/config --experimental-repl-await"
   },
   "dependencies": {
     "@cryptoket/redis-proxy": "^1.0.8",
