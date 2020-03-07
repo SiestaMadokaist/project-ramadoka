@@ -1,12 +1,12 @@
 import { BigNumber } from 'bignumber.js';
-import type { NT, PhantomNumber } from './number';
+import type { PhantomNumber } from './number';
 import type { NumberLike } from './number';
 
-export function bnFrom<T extends NT>(n: NumberLike<T>): PhantomBigNumber<T> {
+export function bnFrom<T>(n: NumberLike<T>): PhantomBigNumber<T> {
   return new BigNumber(n) as PhantomBigNumber<T>;
 }
 
-export interface PhantomBigNumber<T extends NT> extends BigNumber {
+export interface PhantomBigNumber<T> extends BigNumber {
   '__@type'?: T;
   minus(n: NumberLike<T>): PhantomBigNumber<T>;
   plus(n: NumberLike<T>): PhantomBigNumber<T>;

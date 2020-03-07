@@ -2,6 +2,7 @@ export interface ENV {
   AWS_REGION: string;
   DEFAULT_PORT: string;
   LAMBDA_ENV: 'true' | 'false';
+  NODE_ENV: 'development' | 'production';
   // env variable goes here...
 }
 
@@ -20,6 +21,7 @@ function initializeEnv(): ENV {
     AWS_REGION: 'ap-southeast-1',
     DEFAULT_PORT: '4000',
     LAMBDA_ENV: 'false',
+    NODE_ENV: 'development',
   };
   return {
     ...defaults,

@@ -5,6 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
+        "ban-types": false,
         "class-name": false,
         "no-namespace": false,
         "ordered-imports": false,

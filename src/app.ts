@@ -1,9 +1,9 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import { GachaInitialize } from './endpoints/Gacha/1.initialize';
-import { GachaSubmit } from './endpoints/Gacha/2.submit';
-import Ping from './endpoints/Ping';
+import { GachaInitialize } from './controllers/Gacha/1.initialize';
+import { GachaSubmit } from './controllers/Gacha/2.submit';
+import Ping from './controllers/Ping';
 import { env } from './helper/env';
 import { logger } from './helper/logger';
 import { WrappedExpress } from './helper/server';
