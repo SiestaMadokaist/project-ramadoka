@@ -26,7 +26,13 @@ export enum COMPARE {
   LT = -1,
 }
 
+type ErrConst = new (message: string) => Error;
+
 export function assertNonNull<T>(item: null | undefined | T, message: string): asserts item is NonNullable<T> {
   if (item === null) { throw new Error(message); }
   if (item === undefined) { throw new Error(message); }
+}
+
+export function assert(value: boolean, message: string, constructor: ErrConst = Error): void {
+  if (!value) { throw new constructor(message); }
 }

@@ -2,7 +2,7 @@ import { PhantomNumber, NT } from '../../helper/phantom-types/number';
 import { ID, Model } from '../Base';
 import type { CharacterInterface } from '../Characters/interface';
 import { Joy } from '../../helper/joy';
-import { TimestampValue } from '../../helper/phantom-types/bignumber';
+import { TimestampValue, PhantomBigNumber } from '../../helper/phantom-types/bignumber';
 
 export namespace UserStateInterface {
 
@@ -10,8 +10,8 @@ export namespace UserStateInterface {
 
   export interface Schema extends Model<'user-state'> {
     nonce: PhantomNumber<'user-state-nonce'>;
-    token: PhantomNumber<'token'>;
-    credit: PhantomNumber<'credit'>;
+    token: PhantomBigNumber<'token'>;
+    credit: PhantomBigNumber<'credit'>;
     createdAt: PhantomNumber<NT.TIMESTAMP_MS>;
     characters: Record<CharacterInterface.Schema['id'], CharacterInterface.Schema>;
     updates: Partial<Omit<Schema, 'updates' | 'id' | 'createdAt' | 'nonce'>> & { memo: string; };

@@ -19,6 +19,7 @@
     "@cryptoket/ts-memoize": "^1.0.10",
     "@cryptoket/ts-promise-helper": "^1.0.25",
     "@hapi/joi": "^17.1.0",
+    "@types/debug": "^4.1.5",
     "@types/dynamodb": "^1.2.0",
     "bignumber.js": "^9.0.0",
     "body-parser": "^1.19.0",
